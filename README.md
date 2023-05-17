@@ -72,3 +72,8 @@ The URL for DummyJSON is injected as a build setting, called `DUMMY_JSON_BASE_UR
 
 Having spent most of the time on the app itself, I've only added a few unit tests for `CartManager`.
 
+# External packages
+
+Wondershop relies on these external packages:
+* `swift-collections`: Provides `OrderedDictionary` used as a storage for the cart
+* `SDWebImageSwiftUI` (and `SDWebImage`): This library is employed to load and display product images
