@@ -11,23 +11,33 @@ import Foundation
 @MainActor
 final class CartViewModel: ObservableObject {
 
+    // MARK: - Types
+
+    enum State {
+        case empty
+        case cellsAvailable([CartCellViewModel], runningTotal: String)
+    }
+
+    // MARK: - Properties
+
     private let cartManager: CartManager
 
-    @Published var cellViewModels: [CartCellViewModel] = []
-    @Published var runningTotal: String = ""
+    @Published var state: State = .empty
 
     // MARK: - Internal
 
     private func setupBindings() {
         cartManager.allItems
-            .map { [weak self] cart in
-                guard let self else {
-                    return []
+            .map { [weak self] cart -> State in
+                guard let self, !cart.isEmpty else {
+                    return .empty
                 }
 
+                var runningTotal: Float = 0
                 var cellViewModels = [CartCellViewModel]()
 
-                for (product, _) in cart {
+                for (product, amount) in cart {
+                    runningTotal += (product.discountedPrice ?? product.price) * Float(amount)
                     cellViewModels.append(.init(
                         product: product,
                         cartManager: cartManager,
@@ -37,25 +47,14 @@ final class CartViewModel: ObservableObject {
                         )
                     ))
                 }
-                return cellViewModels
+
+                let runningTotalString = NumberFormatter.currency.string(
+                    from: NSNumber(value: runningTotal)
+                ) ?? "\(runningTotal)"
+
+                return .cellsAvailable(cellViewModels, runningTotal: runningTotalString)
             }
-            .assign(to: &$cellViewModels)
-
-        cartManager.allItems
-            .map { cart in
-                var runningTotal: Float = 0
-                for (product, amount) in cart {
-                    runningTotal += (product.discountedPrice ?? product.price) * Float(amount)
-                }
-
-                let value = NumberFormatter.currency.string(from: NSNumber(value: runningTotal))
-                guard let value else {
-                    return "\(runningTotal)"
-                }
-
-                return value
-            }
-            .assign(to: &$runningTotal)
+            .assign(to: &$state)
     }
 
     // MARK: - Initialization

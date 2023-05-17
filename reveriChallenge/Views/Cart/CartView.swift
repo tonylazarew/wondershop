@@ -12,35 +12,61 @@ struct CartView: View {
     @ObservedObject var viewModel: CartViewModel
     @State var showPopup: Bool = false
 
+    var emptyCart: some View {
+        VStack(alignment: .center) {
+            Group {
+                Image(systemName: "cart.badge.questionmark")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 100)
+
+                Text("Your cart is empty")
+                    .font(.title)
+                    .padding()
+            }
+            .foregroundColor(.accentColor)
+
+            Text("Have you checked out the wondershop yet?")
+                .font(.footnote)
+        }
+    }
+
     var body: some View {
         VStack {
-            List {
-                ForEach(viewModel.cellViewModels) { cellViewModel in
-                    CartCell(viewModel: cellViewModel)
-                }
+            switch viewModel.state {
+            case .empty:
+                emptyCart
 
-                HStack {
-                    Spacer()
-
-                    Group {
-                        Text("Total: ")
-                        Text(viewModel.runningTotal)
-                            .fontWeight(.bold)
+            case let .cellsAvailable(cellViewModels, runningTotal):
+                List {
+                    ForEach(cellViewModels) { cellViewModel in
+                        CartCell(viewModel: cellViewModel)
                     }
-                    .font(.footnote)
-                }
 
-                Button {
-                    showPopup.toggle()
-                } label: {
-                    Spacer()
-                    Text("Checkout")
-                    Spacer()
+                    HStack {
+                        Spacer()
+
+                        Group {
+                            Text("Total: ")
+                            Text(runningTotal)
+                                .fontWeight(.bold)
+                        }
+                        .animation(.easeIn(duration: 0.1), value: runningTotal)
+                        .font(.footnote)
+                    }
+
+                    Button {
+                        showPopup.toggle()
+                    } label: {
+                        Spacer()
+                        Text("Checkout")
+                        Spacer()
+                    }
+                    .buttonStyle(.bordered)
+                    .padding()
                 }
-                .buttonStyle(.bordered)
-                .padding()
+                .listStyle(.inset)
             }
-            .listStyle(.inset)
         }
         .navigationTitle("Cart")
         .sheet(isPresented: $showPopup) {
