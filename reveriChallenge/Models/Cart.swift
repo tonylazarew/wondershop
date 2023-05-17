@@ -10,4 +10,3 @@ import Foundation
 
 typealias ProductAmount = Int
 typealias Cart = OrderedDictionary<Product, ProductAmount>
-//typealias Cart = [Product: ProductAmount]
