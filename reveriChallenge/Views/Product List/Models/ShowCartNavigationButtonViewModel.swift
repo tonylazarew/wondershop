@@ -14,7 +14,7 @@ final class ShowCartNavigationButtonViewModel: ObservableObject {
 
     private let cartStateReadable: CartStateReadable
 
-    @Published var cartCount: String = ""
+    @Published var cartAmount: String = ""
 
     // MARK: - Initialization
 
@@ -25,9 +25,9 @@ final class ShowCartNavigationButtonViewModel: ObservableObject {
     }
 
     private func setupBindings() {
-        cartStateReadable.count
+        cartStateReadable.amount
             .map { "\($0)" }
-            .assign(to: &$cartCount)
+            .assign(to: &$cartAmount)
     }
 
 }

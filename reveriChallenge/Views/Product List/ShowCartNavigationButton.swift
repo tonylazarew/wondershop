@@ -17,14 +17,14 @@ struct ShowCartNavigationButton: View {
                 Image(systemName: "cart")
                     .padding(.trailing, 5)
 
-                Text(viewModel.cartCount)
+                Text(viewModel.cartAmount)
                     .font(Font(CTFont(.smallSystem, size: 12)))
                     .padding(2)
                     .padding(.horizontal, 2)
                     .foregroundColor(.white)
                     .background(Color.accentColor)
                     .clipShape(Capsule())
-                    .animation(.default, value: viewModel.cartCount)
+                    .animation(.default, value: viewModel.cartAmount)
             }
             Text("Cart")
         }

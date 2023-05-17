@@ -40,7 +40,7 @@ final class CartManagerImpl {
 
 extension CartManagerImpl: CartStateReadable {
 
-    var count: AnyPublisher<Int, Never> {
+    var amount: AnyPublisher<Int, Never> {
         updated
             .map { [weak self] _ in
                 self?.cart.values

@@ -12,7 +12,7 @@ protocol CartStateReadable {
     /// Returns a stream of updates for a given product, whether the product is in the cart or not
     func streamUpdates(for product: Product) -> AnyPublisher<ProductAmount, Never>
 
-    var count: AnyPublisher<Int, Never> { get }
+    var amount: AnyPublisher<Int, Never> { get }
     var allItems: AnyPublisher<Cart, Never> { get }
 
 }
