@@ -1,11 +1,11 @@
 //
 //  CartStateReadableTest.swift
-//  reveriChallengeTests
+//  WondershopTests
 //
 //  Created by Anton Lazarev on 17/05/2023.
 //
 
-@testable import reveriChallenge
+@testable import Wondershop
 
 import Combine
 import XCTest
