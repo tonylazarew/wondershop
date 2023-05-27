@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		EA0D5B592A14DEE000B63BF9 /* ProductUpdatesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA0D5B582A14DEE000B63BF9 /* ProductUpdatesTests.swift */; };
+		EA6EE5F82A220F1900FCCDBE /* ShakeDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6EE5F72A220F1900FCCDBE /* ShakeDetector.swift */; };
+		EA6EE5FB2A2214EC00FCCDBE /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6EE5FA2A2214EC00FCCDBE /* RootViewController.swift */; };
+		EA6EE5FD2A22155300FCCDBE /* RootViewControllerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6EE5FC2A22155300FCCDBE /* RootViewControllerRepresentable.swift */; };
 		EAD805F92A13845F00510B99 /* WondershopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD805F82A13845F00510B99 /* WondershopApp.swift */; };
 		EAD805FD2A13846000510B99 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EAD805FC2A13846000510B99 /* Assets.xcassets */; };
 		EAD806002A13846000510B99 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EAD805FF2A13846000510B99 /* Preview Assets.xcassets */; };
@@ -60,6 +63,9 @@
 
 /* Begin PBXFileReference section */
 		EA0D5B582A14DEE000B63BF9 /* ProductUpdatesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductUpdatesTests.swift; sourceTree = "<group>"; };
+		EA6EE5F72A220F1900FCCDBE /* ShakeDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShakeDetector.swift; sourceTree = "<group>"; };
+		EA6EE5FA2A2214EC00FCCDBE /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		EA6EE5FC2A22155300FCCDBE /* RootViewControllerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewControllerRepresentable.swift; sourceTree = "<group>"; };
 		EAD805F52A13845F00510B99 /* Wondershop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wondershop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAD805F82A13845F00510B99 /* WondershopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WondershopApp.swift; sourceTree = "<group>"; };
 		EAD805FC2A13846000510B99 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -121,6 +127,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EA6EE5F92A22147600FCCDBE /* UIKitViews */ = {
+			isa = PBXGroup;
+			children = (
+				EA6EE5FA2A2214EC00FCCDBE /* RootViewController.swift */,
+				EA6EE5FC2A22155300FCCDBE /* RootViewControllerRepresentable.swift */,
+			);
+			path = UIKitViews;
+			sourceTree = "<group>";
+		};
 		EAD805EC2A13845F00510B99 = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +164,7 @@
 				EAD8063D2A138B8600510B99 /* Repositories */,
 				EAD8062A2A1385E300510B99 /* Resources */,
 				EAD806582A13D7A200510B99 /* Services */,
+				EA6EE5F92A22147600FCCDBE /* UIKitViews */,
 				EAD806542A13D25800510B99 /* Utilities */,
 				EAD806292A1385B800510B99 /* Views */,
 			);
@@ -291,6 +307,7 @@
 			children = (
 				EAD806552A13D26800510B99 /* Configuration.swift */,
 				EAD8066C2A13EEB900510B99 /* NumberFormatterExtensions.swift */,
+				EA6EE5F72A220F1900FCCDBE /* ShakeDetector.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -475,10 +492,13 @@
 				EAD806472A138CF600510B99 /* Product.swift in Sources */,
 				EAD806562A13D26800510B99 /* Configuration.swift in Sources */,
 				EAD8065F2A13E02900510B99 /* CartStore.swift in Sources */,
+				EA6EE5FD2A22155300FCCDBE /* RootViewControllerRepresentable.swift in Sources */,
 				EAD806342A13898100510B99 /* ProductListCellViewModel.swift in Sources */,
+				EA6EE5FB2A2214EC00FCCDBE /* RootViewController.swift in Sources */,
 				EAD806672A13E6FB00510B99 /* PreviewCartStore.swift in Sources */,
 				EAD806742A1441EF00510B99 /* CartRepository.swift in Sources */,
 				EAD805F92A13845F00510B99 /* WondershopApp.swift in Sources */,
+				EA6EE5F82A220F1900FCCDBE /* ShakeDetector.swift in Sources */,
 				EAD806382A138A6A00510B99 /* ProductDescriptionView.swift in Sources */,
 				EAD806322A1388FD00510B99 /* ProductListViewModel.swift in Sources */,
 				EAD806422A138C9300510B99 /* DummyJSONProductStore.swift in Sources */,

@@ -13,6 +13,12 @@ struct WondershopApp: App {
     private let cartManager: CartManager
     private let productListViewModel: ProductListViewModel
 
+    // MARK: - Properties
+
+    @AppStorage("useSwiftUI") var useSwiftUI: Bool = true
+
+    // MARK: - Initialization
+
     init() {
         let cartManager = CartManagerImpl(store: CartStoreImpl(repository: UserDefaults.standard))
         Task {
@@ -26,9 +32,24 @@ struct WondershopApp: App {
         )
     }
 
+    // MARK: - Private
+
+    private func togglePresentation() {
+        useSwiftUI.toggle()
+    }
+
+    // MARK: - Scene
+
     var body: some Scene {
         WindowGroup {
-            ProductList(viewModel: productListViewModel)
+            Group {
+                if useSwiftUI {
+                    ProductList(viewModel: productListViewModel)
+                } else {
+                    RootViewControllerRepresentable()
+                }
+            }
+            .onShake(togglePresentation)
         }
     }
 }
