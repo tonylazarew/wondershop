@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct RootViewControllerRepresentable: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> RootViewController {
+    func makeUIViewController(context _: Context) -> RootViewController {
         RootViewController()
     }
 
-    func updateUIViewController(_ uiViewController: RootViewController, context: Context) {
-    }
+    func updateUIViewController(_: RootViewController, context _: Context) {}
 }

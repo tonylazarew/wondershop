@@ -10,7 +10,6 @@ import Foundation
 #if DEBUG
 
 final class PreviewProductStore: ProductStore {
-
     // MARK: - Types
 
     enum PreviewError: Error {
@@ -58,7 +57,7 @@ final class PreviewProductStore: ProductStore {
         }
     }
 
-    func fetch(after product: Product) async throws -> [Product] {
+    func fetch(after _: Product) async throws -> [Product] {
         throw PreviewError.unsupported
     }
 }

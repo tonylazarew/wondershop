@@ -9,7 +9,6 @@ import Combine
 import Foundation
 
 final class CartManagerImpl {
-
     private var cart: Cart = [:]
     private let store: CartStore
 
@@ -35,17 +34,15 @@ final class CartManagerImpl {
         cart = await store.currentCart
         updated.send(true)
     }
-
 }
 
 extension CartManagerImpl: CartStateReadable {
-
     var amount: AnyPublisher<Int, Never> {
         updated
             .map { [weak self] _ in
                 self?.cart.values
                     .reduce(0) { $0 + $1 }
-                ?? 0
+                    ?? 0
             }
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
@@ -68,11 +65,9 @@ extension CartManagerImpl: CartStateReadable {
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }
-
 }
 
 extension CartManagerImpl: CartStateWriteable {
-
     func add(_ product: Product) async {
         if let productAmount = cart[product] {
             // Make sure to not overbook the stock
@@ -114,5 +109,4 @@ extension CartManagerImpl: CartStateWriteable {
             await add(product)
         }
     }
-
 }

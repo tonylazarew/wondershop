@@ -9,7 +9,6 @@ import SDWebImageSwiftUI
 import SwiftUI
 
 struct ProductDescriptionView: View {
-
     @ObservedObject var viewModel: ProductDescriptionViewModel
 
     var body: some View {
@@ -75,7 +74,7 @@ struct ProductDescriptionView: View {
                 .padding()
 
                 HStack(alignment: .center) {
-                    ForEach(Range(1...5), id: \.self) { starNo in
+                    ForEach(Range(1 ... 5), id: \.self) { starNo in
                         if starNo <= viewModel.ratingStars {
                             Image(systemName: "star.fill")
                                 .renderingMode(.original)
@@ -107,4 +106,3 @@ struct ProductDescriptionView_Previews: PreviewProvider {
     }
 }
 #endif
-

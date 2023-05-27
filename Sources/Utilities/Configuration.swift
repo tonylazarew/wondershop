@@ -8,7 +8,6 @@
 import Foundation
 
 enum Configuration {
-
     private enum Keys {
         static let dummyJSONURLKey = "DUMMY_JSON_BASE_URL"
     }
@@ -20,6 +19,4 @@ enum Configuration {
     static var dummyJSONURL: URL {
         URL(string: infoDictionary[Keys.dummyJSONURLKey] as! String)!
     }
-
 }
-

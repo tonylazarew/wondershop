@@ -52,7 +52,6 @@ struct ProductListCell: View {
 
     var body: some View {
         ZStack {
-
             // Thumbnail behind the description
 
             thumbnailImage
@@ -62,7 +61,6 @@ struct ProductListCell: View {
 
             Group {
                 VStack(alignment: .leading, spacing: 0) {
-
                     // Title and brand
 
                     Text(viewModel.title)
@@ -113,7 +111,8 @@ struct ProductListCell: View {
         .task {
             await viewModel.cellWillAppear()
         }
-    }}
+    }
+}
 
 #if DEBUG
 struct ProductListCell_Previews: PreviewProvider {

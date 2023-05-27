@@ -8,17 +8,14 @@
 import Foundation
 
 extension NumberFormatter {
-
     static let currency: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         return formatter
     }()
-
 }
 
 extension NumberFormatter {
-
     static let floatingPointSingle: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
@@ -26,5 +23,4 @@ extension NumberFormatter {
         formatter.maximumFractionDigits = 1
         return formatter
     }()
-
 }

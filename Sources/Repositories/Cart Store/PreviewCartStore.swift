@@ -10,11 +10,9 @@ import Foundation
 #if DEBUG
 
 final class PreviewCartStore: CartStore {
-
     var currentCart: Cart = [:]
 
-    func updateCurrentCart(_ cart: Cart) async {}
-
+    func updateCurrentCart(_: Cart) async {}
 }
 
 #endif

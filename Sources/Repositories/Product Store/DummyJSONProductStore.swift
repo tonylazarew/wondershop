@@ -8,7 +8,6 @@
 import Foundation
 
 final class DummyJSONProductStore: ProductStore {
-
     // MARK: - Types
 
     enum Const {
@@ -59,5 +58,4 @@ final class DummyJSONProductStore: ProductStore {
     func fetch(after product: Product) async throws -> [Product] {
         try await fetch(afterId: product.id)
     }
-
 }

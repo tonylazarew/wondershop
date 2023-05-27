@@ -9,13 +9,12 @@ import Foundation
 
 extension URL: Identifiable {
     public var id: Int {
-        self.hashValue
+        hashValue
     }
 }
 
 @MainActor
 final class ProductDescriptionViewModel: ObservableObject {
-
     // MARK: - Properties
 
     var title: String {

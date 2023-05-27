@@ -9,7 +9,6 @@ import SwiftUI
 
 @main
 struct WondershopApp: App {
-
     private let cartManager: CartManager
     private let productListViewModel: ProductListViewModel
 

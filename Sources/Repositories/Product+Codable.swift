@@ -51,7 +51,6 @@ extension Product: Encodable {
 
         try container.encode(images, forKey: .images)
     }
-
 }
 
 extension Product: Decodable {

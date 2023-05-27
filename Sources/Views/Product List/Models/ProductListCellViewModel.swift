@@ -10,7 +10,6 @@ import Foundation
 
 @MainActor
 final class ProductListCellViewModel: ObservableObject {
-
     // MARK: - Public properties
 
     var title: String {

@@ -11,7 +11,6 @@ import Combine
 import XCTest
 
 final class CartUpdatesTests: XCTestCase {
-
     var sut: CartManager!
     var cancellables = Set<AnyCancellable>()
 
@@ -128,5 +127,4 @@ final class CartUpdatesTests: XCTestCase {
         XCTAssertEqual(updatedCart.count, 0, "Wrong cart size")
         XCTAssertEqual(updatedCount, 0)
     }
-
 }

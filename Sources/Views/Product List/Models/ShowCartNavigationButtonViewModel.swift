@@ -9,7 +9,6 @@ import Combine
 
 @MainActor
 final class ShowCartNavigationButtonViewModel: ObservableObject {
-
     // MARK: - Properties
 
     private let cartStateReadable: CartStateReadable
@@ -29,5 +28,4 @@ final class ShowCartNavigationButtonViewModel: ObservableObject {
             .map { "\($0)" }
             .assign(to: &$cartAmount)
     }
-
 }

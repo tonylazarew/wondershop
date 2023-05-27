@@ -8,7 +8,6 @@
 import Foundation
 
 final class CartStoreImpl: CartStore {
-
     private let repository: CartRepository
 
     // MARK: - Initialization
@@ -44,5 +43,4 @@ final class CartStoreImpl: CartStore {
             repository.remove()
         }
     }
-
 }

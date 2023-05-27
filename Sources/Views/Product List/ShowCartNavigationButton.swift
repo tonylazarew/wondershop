@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ShowCartNavigationButton: View {
-
     @ObservedObject var viewModel: ShowCartNavigationButtonViewModel
 
     var body: some View {

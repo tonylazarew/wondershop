@@ -9,7 +9,6 @@ import Foundation
 
 @MainActor
 final class CartCellViewModel: ObservableObject, Identifiable {
-
     // MARK: - Properties
 
     nonisolated var id: Int {
@@ -51,7 +50,7 @@ final class CartCellViewModel: ObservableObject, Identifiable {
     private let product: Product
     private let cartManager: CartManager
 
-    private func setupBindings()  {
+    private func setupBindings() {
         cartManager.streamUpdates(for: product)
             .assign(to: &$amount)
     }

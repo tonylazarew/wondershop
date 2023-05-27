@@ -10,7 +10,6 @@ import Foundation
 
 @MainActor
 final class CartViewModel: ObservableObject {
-
     // MARK: - Types
 
     enum State {
@@ -64,5 +63,4 @@ final class CartViewModel: ObservableObject {
 
         setupBindings()
     }
-
 }

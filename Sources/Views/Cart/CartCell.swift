@@ -9,7 +9,6 @@ import SDWebImageSwiftUI
 import SwiftUI
 
 struct CartCell: View {
-
     @ObservedObject var viewModel: CartCellViewModel
 
     @ScaledMetric(relativeTo: .body) var thumbnailSize = 70

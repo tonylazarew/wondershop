@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ProductList: View {
-
     @ObservedObject private(set) var viewModel: ProductListViewModel
 
     var body: some View {
@@ -18,7 +17,7 @@ struct ProductList: View {
                 case .fetching:
                     ProgressView()
 
-                case .cellsAvailable(let itemViewModels):
+                case let .cellsAvailable(itemViewModels):
                     ScrollView {
                         LazyVStack(spacing: 5) {
                             ForEach(itemViewModels) { itemViewModel in
@@ -34,7 +33,7 @@ struct ProductList: View {
                         await viewModel.refresh()
                     }
 
-                case .failure(let message):
+                case let .failure(message):
                     VStack {
                         Text(message)
                             .font(.body)

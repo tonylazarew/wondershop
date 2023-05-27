@@ -8,7 +8,6 @@
 import Foundation
 
 protocol ProductStore {
-
     /// Fetches the initial page of product list from the backend storage
     ///
     /// - Returns: An array of `Product` instances representing the initial page of data

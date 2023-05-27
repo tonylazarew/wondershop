@@ -1,0 +1,7 @@
+# file options
+
+--exclude Pods,Assets
+
+# formatting options
+
+--ifdef outdent

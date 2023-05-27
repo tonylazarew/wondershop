@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CartView: View {
-
     @ObservedObject var viewModel: CartViewModel
     @State var showPopup: Bool = false
 
@@ -84,7 +83,6 @@ struct CartView: View {
             }
         }
     }
-
 }
 
 #if DEBUG

@@ -10,7 +10,6 @@ import Foundation
 
 @MainActor
 final class ProductListViewModel: ObservableObject {
-
     // MARK: - Types
 
     struct ItemViewModel: Identifiable {
@@ -127,5 +126,4 @@ final class ProductListViewModel: ObservableObject {
             print("ProductListViewModel error: \(error)")
         }
     }
-
 }

@@ -55,6 +55,6 @@ extension Product {
         ]
     }
 
-    static var preview: Product = Product.previews[0]
+    static var preview: Product = .previews[0]
 }
 #endif

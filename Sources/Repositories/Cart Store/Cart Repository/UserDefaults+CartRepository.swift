@@ -8,7 +8,6 @@
 import Foundation
 
 extension UserDefaults: CartRepository {
-
     private enum Keys {
         static let cart = "cart"
     }
@@ -24,5 +23,4 @@ extension UserDefaults: CartRepository {
     func remove() {
         removeObject(forKey: Keys.cart)
     }
-
 }

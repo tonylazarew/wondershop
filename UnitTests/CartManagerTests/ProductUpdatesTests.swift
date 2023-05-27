@@ -11,7 +11,6 @@ import Combine
 import XCTest
 
 final class ProductUpdatesTests: XCTestCase {
-
     var sut: CartManager!
     var cancellables = Set<AnyCancellable>()
 
@@ -67,5 +66,4 @@ final class ProductUpdatesTests: XCTestCase {
         await fulfillment(of: [expectation])
         XCTAssertEqual(updatedAmount, 0)
     }
-
 }
