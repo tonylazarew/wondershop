@@ -35,6 +35,7 @@ struct WondershopApp: App {
 
     private func togglePresentation() {
         useSwiftUI.toggle()
+        print("useSwiftUI = \(useSwiftUI)")
     }
 
     // MARK: - Scene
@@ -45,9 +46,12 @@ struct WondershopApp: App {
                 if useSwiftUI {
                     ProductList(viewModel: productListViewModel)
                 } else {
-                    RootViewControllerRepresentable()
+                    RootViewControllerRepresentable(
+                        rootViewModel: productListViewModel
+                    )
                 }
             }
+            .animation(.linear(duration: 0.1), value: useSwiftUI)
             .onShake(togglePresentation)
         }
     }
