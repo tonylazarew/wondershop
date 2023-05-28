@@ -88,3 +88,13 @@ final class ProductListCellViewModel: ObservableObject {
         await cartManager.toggle(product)
     }
 }
+
+extension ProductListCellViewModel: Hashable {
+    static func == (lhs: ProductListCellViewModel, rhs: ProductListCellViewModel) -> Bool {
+        lhs.product == rhs.product
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(product.hashValue)
+    }
+}

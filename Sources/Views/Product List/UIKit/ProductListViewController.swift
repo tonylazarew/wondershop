@@ -17,10 +17,15 @@ class ProductListViewController: UICollectionViewController {
 
     private let coordinator: ShopFlowCoordinator
     private let viewModel: ProductListViewModel
-    private let dataSource: ProductListDataSource
     private let refreshControl = UIRefreshControl()
 
     private var cancellables = Set<AnyCancellable>()
+    private var cellWillAppearTask: Task<Void, Never>?
+
+    private lazy var dataSource = makeDataSource()
+
+    typealias ItemViewModel = ProductListViewModel.ItemViewModel
+    private var itemViewModels: [ItemViewModel] = []
 
     // MARK: - Sub views
 
@@ -35,18 +40,36 @@ class ProductListViewController: UICollectionViewController {
         self.coordinator = coordinator
         self.viewModel = viewModel
 
-        dataSource = ProductListDataSource()
-
-        super.init(collectionViewLayout: UICollectionViewFlowLayout())
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 5
+//        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        super.init(collectionViewLayout: layout)
 
         collectionView.dataSource = dataSource
-
         setupBindings()
     }
 
     @available(*, unavailable)
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension ProductListViewController {
+    // MARK: - UIViewController
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        collectionView.remembersLastFocusedIndexPath = true
+
+        collectionView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(didPullToRefresh(_:)), for: .valueChanged)
+
+        navigationItem.title = "Wondershop"
+
+        setupLoadingIndicator()
+        startViewModel()
     }
 }
 
@@ -67,7 +90,7 @@ extension ProductListViewController {
 
         case let .cellsAvailable(itemViewModels):
             hideLoadingIndicator()
-            dataSource.itemViewModels = itemViewModels
+            productListDidUpdate(with: itemViewModels)
             collectionView.reloadData()
 
         case let .failure(message):
@@ -100,40 +123,20 @@ extension ProductListViewController {
     }
 }
 
-extension ProductListViewController {
-    // MARK: - UIViewController
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Register cell classes
-        collectionView!.register(
-            ProductListCollectionViewCell.self,
-            forCellWithReuseIdentifier: Const.reuseIdentifier
-        )
-
-        // Do any additional setup after loading the view.
-
-        collectionView.refreshControl = refreshControl
-        refreshControl.addTarget(self, action: #selector(didPullToRefresh(_:)), for: .valueChanged)
-
-        setupLoadingIndicator()
-        startViewModel()
-    }
-}
-
 extension ProductListViewController: UICollectionViewDelegateFlowLayout {
+    private func calculateHeight() -> CGFloat {
+        let fontMetrics = UIFontMetrics(forTextStyle: .body)
+        return fontMetrics.scaledValue(for: 200)
+    }
+
     func collectionView(
         _ collectionView: UICollectionView,
         layout _: UICollectionViewLayout,
         sizeForItemAt _: IndexPath
     ) -> CGSize {
-        CGSize(
+        .init(
             width: collectionView.bounds.width,
-            height: 200
+            height: calculateHeight() // UICollectionViewFlowLayout.automaticSize.height
         )
     }
 }
@@ -150,72 +153,113 @@ extension ProductListViewController {
 extension ProductListViewController {
     // MARK: - UICollectionViewDelegate
 
-    override func collectionView(
-        _: UICollectionView,
-        willDisplay _: UICollectionViewCell,
-        forItemAt indexPath: IndexPath
-    ) {
-        // TODO: This is not very smooth yet
+    /*
+     override func collectionView(
+         _: UICollectionView,
+         willDisplay _: UICollectionViewCell,
+         forItemAt indexPath: IndexPath
+     ) {
+         // TODO: This is not very smooth yet
 
-        let idx = indexPath.row
-        let prefetchThreshold = dataSource.itemViewModels.count / 2
+         let idx = indexPath.row
+         let prefetchThreshold = dataSource.itemViewModels.count / 2
 
-        guard idx > prefetchThreshold else {
+         guard idx > prefetchThreshold else {
+             return
+         }
+
+         if let cellViewModel = dataSource.itemViewModels.last?.cellViewModel,
+            cellWillAppearTask == nil {
+             print("\(Date()) cellWillAppear() for \(cellViewModel.title)")
+             cellWillAppearTask = Task {
+                 await cellViewModel.cellWillAppear()
+                 cellWillAppearTask = nil
+             }
+
+         }
+     }
+      */
+
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let height = scrollView.frame.size.height
+
+        if offsetY < contentHeight - height || cellWillAppearTask != nil {
             return
         }
 
-        if let cellViewModel = dataSource.itemViewModels.last?.cellViewModel {
-            Task {
+        if let cellViewModel = itemViewModels.last?.cellViewModel {
+            cellWillAppearTask = Task {
+                print("ENTR: cellWillAppear() for \(cellViewModel.title)")
+
                 await cellViewModel.cellWillAppear()
+
+                print("DONE: cellWillAppear() for \(cellViewModel.title)")
+                cellWillAppearTask = nil
             }
         }
     }
-
-    /*
-     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-         let offsetY = scrollView.contentOffset.y
-         let contentHeight = scrollView.contentSize.height
-         let height = scrollView.frame.size.height
-
-         if offsetY > contentHeight - height {
-             print("load more data")
-         }
-     }
-     */
 
     override func collectionView(
         _: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
         let idx = indexPath.row
-        guard idx < dataSource.itemViewModels.count else {
+        guard idx < itemViewModels.count else {
             return
         }
 
-        let viewModel = dataSource.itemViewModels[idx].descriptionViewModel
+        let viewModel = itemViewModels[idx].descriptionViewModel
         coordinator.showProductDescription(with: viewModel)
     }
 }
 
-final class ProductListDataSource: NSObject, UICollectionViewDataSource {
-    var itemViewModels: [ProductListViewModel.ItemViewModel] = []
+private extension ProductListViewController {
+    // MARK: - Diffable data source
 
-    func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
-        itemViewModels.count
+    private enum Section: Int {
+        case main
     }
 
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: Const.reuseIdentifier,
-            for: indexPath
-        ) as! ProductListCollectionViewCell
+    private func makeDataSource() -> UICollectionViewDiffableDataSource<Section, ProductListCellViewModel> {
+        .init(
+            collectionView: collectionView,
+            cellProvider: makeCellRegistration().cellProvider
+        )
+    }
 
-        let viewModel = itemViewModels[indexPath.row].cellViewModel
-        cell.configure(viewModel: viewModel)
+    private func productListDidUpdate(with itemViewModels: [ItemViewModel]) {
+        self.itemViewModels = itemViewModels
 
-        return cell
+        var snapshot = NSDiffableDataSourceSnapshot<Section, ProductListCellViewModel>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(itemViewModels.map(\.cellViewModel))
+        dataSource.apply(snapshot)
+    }
+}
+
+private extension ProductListViewController {
+    // MARK: - Cell registration
+
+    typealias Cell = ProductListCollectionViewCell
+    typealias CellRegistration = UICollectionView.CellRegistration<Cell, ProductListCellViewModel>
+
+    func makeCellRegistration() -> CellRegistration {
+        .init { cell, _, viewModel in
+            cell.configure(viewModel: viewModel)
+        }
+    }
+}
+
+extension UICollectionView.CellRegistration {
+    var cellProvider: (UICollectionView, IndexPath, Item) -> Cell {
+        { collectionView, indexPath, item in
+            collectionView.dequeueConfiguredReusableCell(
+                using: self,
+                for: indexPath,
+                item: item
+            )
+        }
     }
 }

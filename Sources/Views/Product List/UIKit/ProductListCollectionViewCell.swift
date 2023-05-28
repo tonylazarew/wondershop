@@ -12,8 +12,13 @@ class ProductListCollectionViewCell: UICollectionViewCell {
     // MARK: - Properties
 
     var thumbnail: UIImageView!
-    var title: UILabel!
-    var brand: UILabel!
+    var title: CaptionLabel!
+    var brand: CaptionLabel!
+
+    // MARK: - Internal
+
+    private let contentPadding: CGFloat = 10
+    private var dynamicHeightConstraint: NSLayoutConstraint!
 
     // MARK: - Initialization
 
@@ -31,38 +36,67 @@ class ProductListCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Internal
 
+    private func calculateHeight() -> CGFloat {
+        let fontMetrics = UIFontMetrics(forTextStyle: .body)
+        return fontMetrics.scaledValue(for: 200)
+    }
+
     private func setupThumbnail() {
         thumbnail = UIImageView()
         thumbnail.contentMode = .scaleAspectFill
         thumbnail.clipsToBounds = true
+        thumbnail.layer.opacity = 0.8
         thumbnail.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(thumbnail)
+
+        dynamicHeightConstraint = thumbnail.heightAnchor.constraint(equalToConstant: calculateHeight())
 
         NSLayoutConstraint.activate([
             thumbnail.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             thumbnail.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             thumbnail.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            thumbnail.heightAnchor.constraint(equalToConstant: 200),
+//            thumbnail.topAnchor.constraint(equalTo: contentView.topAnchor),
 //            thumbnail.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            dynamicHeightConstraint,
         ])
     }
 
     private func setupText() {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.spacing = 5
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(stack)
+        title = CaptionLabel(padding: 5)
+        title.textFont = .preferredFont(forTextStyle: .title2)
+        title.textColor = .white
+        title.stripeColor = .black
+        title.cornerRadius = 5
+        title.translatesAutoresizingMaskIntoConstraints = false
 
-        title = UILabel()
-        brand = UILabel()
-        stack.addArrangedSubview(title)
-        stack.addArrangedSubview(brand)
+        brand = CaptionLabel(padding: 2)
+        brand.textFont = .preferredFont(forTextStyle: .subheadline)
+        brand.textColor = .black
+        brand.stripeColor = .white.withAlphaComponent(0.8)
+        brand.cornerRadius = 2
+        brand.translatesAutoresizingMaskIntoConstraints = false
+
+        addSubview(title)
+        addSubview(brand)
 
         NSLayoutConstraint.activate([
-            stack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            stack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            title.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: contentPadding),
+            title.topAnchor.constraint(equalTo: contentView.topAnchor, constant: contentPadding),
+            brand.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: contentPadding),
+            brand.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 5),
         ])
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        let cellHeight = calculateHeight()
+
+        if cellHeight != dynamicHeightConstraint.constant {
+            dynamicHeightConstraint.constant = cellHeight
+
+            layoutIfNeeded()
+        }
     }
 
     // MARK: - Public
