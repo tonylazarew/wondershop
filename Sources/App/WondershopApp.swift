@@ -14,7 +14,8 @@ struct WondershopApp: App {
 
     // MARK: - Properties
 
-    @AppStorage("useSwiftUI") var useSwiftUI: Bool = true
+    @AppStorage("useSwiftUI") var cachedUseSwiftUI: Bool = true
+    @State var useSwiftUI: Bool = true
 
     // MARK: - Initialization
 
@@ -35,6 +36,7 @@ struct WondershopApp: App {
 
     private func togglePresentation() {
         useSwiftUI.toggle()
+        cachedUseSwiftUI = useSwiftUI
         print("useSwiftUI = \(useSwiftUI)")
     }
 
@@ -53,6 +55,7 @@ struct WondershopApp: App {
             }
             .animation(.linear(duration: 0.1), value: useSwiftUI)
             .onShake(togglePresentation)
+            .onAppear { useSwiftUI = cachedUseSwiftUI }
         }
     }
 }
