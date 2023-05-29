@@ -49,5 +49,11 @@ extension ShopFlowCoordinator {
             let title = await viewModel.title
             print("showProductDescription: title = \(title)")
         }
+
+        let vc = ProductDescriptionViewController(
+            coordinator: self,
+            viewModel: viewModel
+        )
+        navigationController.pushViewController(vc, animated: true)
     }
 }

@@ -21,26 +21,28 @@ class CaptionLabel: UIView {
 
         // Setup the background view
         backgroundView.backgroundColor = UIColor.black
-        addSubview(backgroundView)
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            backgroundView.topAnchor.constraint(equalTo: topAnchor),
-            backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            backgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            backgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
-        ])
+        addSubview(backgroundView)
 
         // Setup the label
         label.textAlignment = .natural
         label.adjustsFontForContentSizeCategory = true
-        addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        addSubview(label)
 
         NSLayoutConstraint.activate([
             label.topAnchor.constraint(equalTo: topAnchor, constant: padding),
-            label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding),
             label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
-            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
+
+            heightAnchor.constraint(equalTo: label.heightAnchor, constant: 2 * padding),
+            widthAnchor.constraint(equalTo: label.widthAnchor, constant: 2 * padding),
+
+            backgroundView.topAnchor.constraint(equalTo: label.topAnchor, constant: -padding),
+            backgroundView.leadingAnchor.constraint(equalTo: label.leadingAnchor, constant: -padding),
+            backgroundView.heightAnchor.constraint(equalTo: heightAnchor),
+            backgroundView.widthAnchor.constraint(equalTo: widthAnchor),
         ])
     }
 

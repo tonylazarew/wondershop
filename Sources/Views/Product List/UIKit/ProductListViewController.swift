@@ -27,7 +27,7 @@ class ProductListViewController: UICollectionViewController {
     typealias ItemViewModel = ProductListViewModel.ItemViewModel
     private var itemViewModels: [ItemViewModel] = []
 
-    // MARK: - Sub views
+    // MARK: - Subviews
 
     private var activityIndicator: UIActivityIndicatorView?
 
@@ -58,12 +58,26 @@ class ProductListViewController: UICollectionViewController {
 extension ProductListViewController {
     // MARK: - UIViewController
 
+    override func loadView() {
+        super.loadView()
+
+        view.backgroundColor = .systemBackground
+
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+        ])
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        collectionView.remembersLastFocusedIndexPath = true
-
         collectionView.refreshControl = refreshControl
+//        collectionView.contentInsetAdjustmentBehavior = .always
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+
         refreshControl.addTarget(self, action: #selector(didPullToRefresh(_:)), for: .valueChanged)
 
         navigationItem.title = "Wondershop"
@@ -124,7 +138,7 @@ extension ProductListViewController {
 }
 
 extension ProductListViewController: UICollectionViewDelegateFlowLayout {
-    private func calculateHeight() -> CGFloat {
+    private var cellHeight: CGFloat {
         let fontMetrics = UIFontMetrics(forTextStyle: .body)
         return fontMetrics.scaledValue(for: 200)
     }
@@ -136,7 +150,7 @@ extension ProductListViewController: UICollectionViewDelegateFlowLayout {
     ) -> CGSize {
         .init(
             width: collectionView.bounds.width,
-            height: calculateHeight() // UICollectionViewFlowLayout.automaticSize.height
+            height: cellHeight // UICollectionViewFlowLayout.automaticSize.height
         )
     }
 }

@@ -9,7 +9,7 @@ import SDWebImage
 import UIKit
 
 class ProductListCollectionViewCell: UICollectionViewCell {
-    // MARK: - Properties
+    // MARK: - Subviews
 
     var thumbnail: UIImageView!
     var title: CaptionLabel!
@@ -33,35 +33,64 @@ class ProductListCollectionViewCell: UICollectionViewCell {
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
 
+extension ProductListCollectionViewCell {
+    // MARK: - UIView
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        if cellHeight != dynamicHeightConstraint.constant {
+            dynamicHeightConstraint.constant = cellHeight
+
+            layoutIfNeeded()
+        }
+    }
+}
+
+extension ProductListCollectionViewCell {
+    // MARK: - Public
+
+    func configure(viewModel: ProductListCellViewModel) {
+        thumbnail.sd_setImage(
+            with: viewModel.thumbnailURL,
+            placeholderImage: UIImage(systemName: "photo.fill")
+        )
+        title.text = viewModel.title
+        brand.text = viewModel.brand
+    }
+}
+
+private extension ProductListCollectionViewCell {
     // MARK: - Internal
 
-    private func calculateHeight() -> CGFloat {
+    var cellHeight: CGFloat {
         let fontMetrics = UIFontMetrics(forTextStyle: .body)
         return fontMetrics.scaledValue(for: 200)
     }
 
-    private func setupThumbnail() {
+    func setupThumbnail() {
         thumbnail = UIImageView()
+        thumbnail.translatesAutoresizingMaskIntoConstraints = false
         thumbnail.contentMode = .scaleAspectFill
         thumbnail.clipsToBounds = true
         thumbnail.layer.opacity = 0.8
-        thumbnail.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(thumbnail)
 
-        dynamicHeightConstraint = thumbnail.heightAnchor.constraint(equalToConstant: calculateHeight())
+        dynamicHeightConstraint = thumbnail.heightAnchor.constraint(equalToConstant: cellHeight)
 
         NSLayoutConstraint.activate([
             thumbnail.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             thumbnail.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             thumbnail.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-//            thumbnail.topAnchor.constraint(equalTo: contentView.topAnchor),
-//            thumbnail.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            //            thumbnail.topAnchor.constraint(equalTo: contentView.topAnchor),
+            //            thumbnail.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             dynamicHeightConstraint,
         ])
     }
 
-    private func setupText() {
+    func setupText() {
         title = CaptionLabel(padding: 5)
         title.textFont = .preferredFont(forTextStyle: .title2)
         title.textColor = .white
@@ -76,8 +105,8 @@ class ProductListCollectionViewCell: UICollectionViewCell {
         brand.cornerRadius = 2
         brand.translatesAutoresizingMaskIntoConstraints = false
 
-        addSubview(title)
-        addSubview(brand)
+        contentView.addSubview(title)
+        contentView.addSubview(brand)
 
         NSLayoutConstraint.activate([
             title.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: contentPadding),
@@ -85,28 +114,5 @@ class ProductListCollectionViewCell: UICollectionViewCell {
             brand.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: contentPadding),
             brand.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 5),
         ])
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        let cellHeight = calculateHeight()
-
-        if cellHeight != dynamicHeightConstraint.constant {
-            dynamicHeightConstraint.constant = cellHeight
-
-            layoutIfNeeded()
-        }
-    }
-
-    // MARK: - Public
-
-    func configure(viewModel: ProductListCellViewModel) {
-        thumbnail.sd_setImage(
-            with: viewModel.thumbnailURL,
-            placeholderImage: UIImage(systemName: "photo.fill")
-        )
-        title.text = viewModel.title
-        brand.text = viewModel.brand
     }
 }

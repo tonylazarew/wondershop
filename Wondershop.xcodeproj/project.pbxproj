@@ -16,6 +16,9 @@
 		EA6EE60A2A2267B500FCCDBE /* ProductListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6EE6092A2267B500FCCDBE /* ProductListViewController.swift */; };
 		EA6EE60E2A2287F700FCCDBE /* ProductListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6EE60D2A2287F700FCCDBE /* ProductListCollectionViewCell.swift */; };
 		EA6EE6102A236D1A00FCCDBE /* CaptionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6EE60F2A236D1A00FCCDBE /* CaptionLabel.swift */; };
+		EA6EE6122A24BB2000FCCDBE /* ProductDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6EE6112A24BB2000FCCDBE /* ProductDescriptionViewController.swift */; };
+		EA6EE6142A24D1A600FCCDBE /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6EE6132A24D1A600FCCDBE /* Colors.swift */; };
+		EA6EE6162A25131000FCCDBE /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6EE6152A25131000FCCDBE /* RatingView.swift */; };
 		EAD805F92A13845F00510B99 /* WondershopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD805F82A13845F00510B99 /* WondershopApp.swift */; };
 		EAD805FD2A13846000510B99 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EAD805FC2A13846000510B99 /* Assets.xcassets */; };
 		EAD806002A13846000510B99 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EAD805FF2A13846000510B99 /* Preview Assets.xcassets */; };
@@ -76,6 +79,9 @@
 		EA6EE6092A2267B500FCCDBE /* ProductListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
 		EA6EE60D2A2287F700FCCDBE /* ProductListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListCollectionViewCell.swift; sourceTree = "<group>"; };
 		EA6EE60F2A236D1A00FCCDBE /* CaptionLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionLabel.swift; sourceTree = "<group>"; };
+		EA6EE6112A24BB2000FCCDBE /* ProductDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDescriptionViewController.swift; sourceTree = "<group>"; };
+		EA6EE6132A24D1A600FCCDBE /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		EA6EE6152A25131000FCCDBE /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 		EAD805F52A13845F00510B99 /* Wondershop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wondershop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAD805F82A13845F00510B99 /* WondershopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WondershopApp.swift; sourceTree = "<group>"; };
 		EAD805FC2A13846000510B99 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -167,6 +173,8 @@
 		EA6EE6002A22576500FCCDBE /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
+				EA6EE6112A24BB2000FCCDBE /* ProductDescriptionViewController.swift */,
+				EA6EE6152A25131000FCCDBE /* RatingView.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -282,6 +290,7 @@
 			children = (
 				EAD806572A13D30100510B99 /* Info.plist */,
 				EAD805FC2A13846000510B99 /* Assets.xcassets */,
+				EA6EE6132A24D1A600FCCDBE /* Colors.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -543,6 +552,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				EAD806402A138C5400510B99 /* ProductStore.swift in Sources */,
+				EA6EE6142A24D1A600FCCDBE /* Colors.swift in Sources */,
+				EA6EE6122A24BB2000FCCDBE /* ProductDescriptionViewController.swift in Sources */,
 				EA6EE6102A236D1A00FCCDBE /* CaptionLabel.swift in Sources */,
 				EAD8065A2A13D7C600510B99 /* CartManager.swift in Sources */,
 				EAD806762A14420E00510B99 /* UserDefaults+CartRepository.swift in Sources */,
@@ -567,6 +578,7 @@
 				EAD806512A13AB6F00510B99 /* Cart.swift in Sources */,
 				EAD806472A138CF600510B99 /* Product.swift in Sources */,
 				EAD806562A13D26800510B99 /* Configuration.swift in Sources */,
+				EA6EE6162A25131000FCCDBE /* RatingView.swift in Sources */,
 				EAD8065F2A13E02900510B99 /* CartStore.swift in Sources */,
 				EA6EE5FD2A22155300FCCDBE /* RootViewControllerRepresentable.swift in Sources */,
 				EAD806342A13898100510B99 /* ProductListCellViewModel.swift in Sources */,
