@@ -8,110 +8,145 @@
 import SDWebImage
 import UIKit
 
-class ProductListCollectionViewCell: UICollectionViewCell {
+struct ProductListCellConfiguration: UIContentConfiguration, Hashable {
+    // MARK: - Properties
+
+    var title: String = ""
+    var brand: String = ""
+    var thumbnailURL: URL?
+
+    var dynamicCellHeight: CGFloat {
+        let fontMetrics = UIFontMetrics(forTextStyle: .body)
+        return fontMetrics.scaledValue(for: 200)
+    }
+
+    // MARK: - UIContentConfiguration
+
+    func makeContentView() -> UIView & UIContentView {
+        ProductListCellContentView(configuration: self)
+    }
+
+    func updated(for _: UIConfigurationState) -> Self {
+        // TODO: implement size updates
+        self
+    }
+}
+
+final class ProductListCellContentView: UIView, UIContentView {
     // MARK: - Subviews
 
-    var thumbnail: UIImageView!
-    var title: CaptionLabel!
-    var brand: CaptionLabel!
+    private lazy var thumbnail: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        // imageView.layer.opacity = 0.8
+        return imageView
+    }()
+
+    private lazy var title: CaptionLabel = {
+        let label = CaptionLabel()
+        label.textFont = .preferredFont(forTextStyle: .title2)
+        label.textColor = .white
+        label.stripeColor = .black
+        label.cornerRadius = 5
+        return label
+    }()
+
+    private lazy var brand: CaptionLabel = {
+        let label = CaptionLabel()
+        label.textFont = .preferredFont(forTextStyle: .subheadline)
+        label.textColor = .black
+        label.stripeColor = .white.withAlphaComponent(0.8)
+        label.cornerRadius = 2
+        return label
+    }()
+
+    // MARK: - UIContentConfiguration
+
+    var configuration: UIContentConfiguration {
+        didSet {
+            guard let configuration = configuration as? ProductListCellConfiguration else {
+                return
+            }
+
+            configure(with: configuration)
+        }
+    }
 
     // MARK: - Internal
 
     private let contentPadding: CGFloat = 10
-    private var dynamicHeightConstraint: NSLayoutConstraint!
+    private lazy var dynamicHeight: CGFloat = 200
+    private lazy var dynamicHeightConstraint = heightAnchor.constraint(equalToConstant: dynamicHeight)
 
     // MARK: - Initialization
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(configuration: UIContentConfiguration) {
+        self.configuration = configuration
 
-        setupThumbnail()
-        setupText()
+        super.init(frame: .zero)
+
+        setupSubviews()
     }
 
     @available(*, unavailable)
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-}
 
-extension ProductListCollectionViewCell {
-    // MARK: - UIView
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        if cellHeight != dynamicHeightConstraint.constant {
-            dynamicHeightConstraint.constant = cellHeight
-
-            layoutIfNeeded()
-        }
+    override var intrinsicContentSize: CGSize {
+        CGSize(width: bounds.width, height: dynamicHeight)
     }
 }
 
-extension ProductListCollectionViewCell {
-    // MARK: - Public
-
-    func configure(viewModel: ProductListCellViewModel) {
+private extension ProductListCellContentView {
+    func configure(with configuration: ProductListCellConfiguration) {
         thumbnail.sd_setImage(
-            with: viewModel.thumbnailURL,
+            with: configuration.thumbnailURL,
             placeholderImage: UIImage(systemName: "photo.fill")
         )
-        title.text = viewModel.title
-        brand.text = viewModel.brand
+        title.text = configuration.title
+        brand.text = configuration.brand
+
+        dynamicHeight = configuration.dynamicCellHeight
+        dynamicHeightConstraint.constant = configuration.dynamicCellHeight
+        invalidateIntrinsicContentSize()
+        print("configuration.dynamicCellHeight = \(configuration.dynamicCellHeight)")
     }
 }
 
-private extension ProductListCollectionViewCell {
-    // MARK: - Internal
+private extension ProductListCellContentView {
+    func setupSubviews() {
+        NSLayoutConstraint.activate([
+            dynamicHeightConstraint,
+        ])
 
-    var cellHeight: CGFloat {
-        let fontMetrics = UIFontMetrics(forTextStyle: .body)
-        return fontMetrics.scaledValue(for: 200)
+        setupThumbnail()
+        setupCaptions()
     }
 
     func setupThumbnail() {
-        thumbnail = UIImageView()
         thumbnail.translatesAutoresizingMaskIntoConstraints = false
-        thumbnail.contentMode = .scaleAspectFill
-        thumbnail.clipsToBounds = true
-        thumbnail.layer.opacity = 0.8
-        contentView.addSubview(thumbnail)
-
-        dynamicHeightConstraint = thumbnail.heightAnchor.constraint(equalToConstant: cellHeight)
+        addSubview(thumbnail)
 
         NSLayoutConstraint.activate([
-            thumbnail.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            thumbnail.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            thumbnail.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            //            thumbnail.topAnchor.constraint(equalTo: contentView.topAnchor),
-            //            thumbnail.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            dynamicHeightConstraint,
+            thumbnail.leadingAnchor.constraint(equalTo: leadingAnchor),
+            thumbnail.trailingAnchor.constraint(equalTo: trailingAnchor),
+            thumbnail.centerYAnchor.constraint(equalTo: centerYAnchor),
+            thumbnail.heightAnchor.constraint(equalTo: heightAnchor),
         ])
     }
 
-    func setupText() {
-        title = CaptionLabel(padding: 5)
-        title.textFont = .preferredFont(forTextStyle: .title2)
-        title.textColor = .white
-        title.stripeColor = .black
-        title.cornerRadius = 5
+    func setupCaptions() {
         title.translatesAutoresizingMaskIntoConstraints = false
-
-        brand = CaptionLabel(padding: 2)
-        brand.textFont = .preferredFont(forTextStyle: .subheadline)
-        brand.textColor = .black
-        brand.stripeColor = .white.withAlphaComponent(0.8)
-        brand.cornerRadius = 2
         brand.translatesAutoresizingMaskIntoConstraints = false
-
-        contentView.addSubview(title)
-        contentView.addSubview(brand)
+        addSubview(title)
+        addSubview(brand)
 
         NSLayoutConstraint.activate([
-            title.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: contentPadding),
-            title.topAnchor.constraint(equalTo: contentView.topAnchor, constant: contentPadding),
-            brand.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: contentPadding),
+            title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: contentPadding),
+            title.topAnchor.constraint(equalTo: topAnchor, constant: contentPadding),
+            brand.leadingAnchor.constraint(equalTo: leadingAnchor, constant: contentPadding),
             brand.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 5),
         ])
     }

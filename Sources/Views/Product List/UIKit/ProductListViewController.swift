@@ -42,7 +42,8 @@ class ProductListViewController: UICollectionViewController {
 
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 5
-//        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+
         super.init(collectionViewLayout: layout)
 
         collectionView.dataSource = dataSource
@@ -75,7 +76,6 @@ extension ProductListViewController {
         super.viewDidLoad()
 
         collectionView.refreshControl = refreshControl
-//        collectionView.contentInsetAdjustmentBehavior = .always
         collectionView.translatesAutoresizingMaskIntoConstraints = false
 
         refreshControl.addTarget(self, action: #selector(didPullToRefresh(_:)), for: .valueChanged)
@@ -134,24 +134,6 @@ extension ProductListViewController {
 
     private func hideLoadingIndicator() {
         activityIndicator?.stopAnimating()
-    }
-}
-
-extension ProductListViewController: UICollectionViewDelegateFlowLayout {
-    private var cellHeight: CGFloat {
-        let fontMetrics = UIFontMetrics(forTextStyle: .body)
-        return fontMetrics.scaledValue(for: 200)
-    }
-
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout _: UICollectionViewLayout,
-        sizeForItemAt _: IndexPath
-    ) -> CGSize {
-        .init(
-            width: collectionView.bounds.width,
-            height: cellHeight // UICollectionViewFlowLayout.automaticSize.height
-        )
     }
 }
 
@@ -256,17 +238,23 @@ private extension ProductListViewController {
 private extension ProductListViewController {
     // MARK: - Cell registration
 
-    typealias Cell = ProductListCollectionViewCell
+    typealias Cell = UICollectionViewCell
     typealias CellRegistration = UICollectionView.CellRegistration<Cell, ProductListCellViewModel>
 
     func makeCellRegistration() -> CellRegistration {
         .init { cell, _, viewModel in
-            cell.configure(viewModel: viewModel)
+            let configuration = ProductListCellConfiguration(
+                title: viewModel.title,
+                brand: viewModel.brand,
+                thumbnailURL: viewModel.thumbnailURL
+            )
+
+            cell.contentConfiguration = configuration
         }
     }
 }
 
-extension UICollectionView.CellRegistration {
+private extension UICollectionView.CellRegistration {
     var cellProvider: (UICollectionView, IndexPath, Item) -> Cell {
         { collectionView, indexPath, item in
             collectionView.dequeueConfiguredReusableCell(
