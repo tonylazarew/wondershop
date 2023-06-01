@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct WondershopApp: App {
+    private let productStore: ProductStore = DummyJSONProductStore()
     private let cartManager: CartManager
     private let productListViewModel: ProductListViewModel
 
@@ -27,7 +28,7 @@ struct WondershopApp: App {
         self.cartManager = cartManager
 
         productListViewModel = ProductListViewModel(
-            productStore: DummyJSONProductStore(),
+            productStore: productStore,
             cartManager: cartManager
         )
 
@@ -60,6 +61,14 @@ struct WondershopApp: App {
             .animation(.linear(duration: 0.1), value: useSwiftUI)
             .onShake(togglePresentation)
             .onAppear { useSwiftUI = cachedUseSwiftUI }
+        }
+
+        WindowGroup("Product Details", for: Product.ID.self) { $productId in
+            ProductDescriptionWindow(viewModel: .init(
+                productStore: productStore,
+                cartManager: cartManager,
+                id: productId!
+            ))
         }
     }
 }

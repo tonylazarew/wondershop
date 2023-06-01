@@ -60,6 +60,36 @@ final class PreviewProductStore: ProductStore {
     func fetch(after _: Product) async throws -> [Product] {
         throw PreviewError.unsupported
     }
+
+    func fetch(id: Product.ID) async throws -> Product {
+        switch behaviour {
+        case .normal:
+            return .preview
+        case .loadFromJSON:
+            let fileURL = Bundle.main.url(forResource: "dummyjson-products", withExtension: "json")!
+
+            let data = try! Data(contentsOf: fileURL)
+
+            return try! JSONDecoder().decode(DummyJSONProductData.self, from: data)
+                .products
+                .first(where: { $0.id == id })!
+        case .failing:
+            throw PreviewError.unsupported
+        case .failThenSucceed:
+            if callCount == 0 {
+                callCount += 1
+                throw PreviewError.unsupported
+            } else {
+                return .preview
+            }
+        }
+    }
+}
+
+extension ProductStore where Self == PreviewProductStore {
+    static var preview: Self {
+        PreviewProductStore()
+    }
 }
 
 #endif

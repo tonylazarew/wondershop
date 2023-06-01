@@ -57,4 +57,8 @@ extension Product {
 
     static var preview: Product = .previews[0]
 }
+
+extension [Product] {
+    static let previews = Product.previews
+}
 #endif

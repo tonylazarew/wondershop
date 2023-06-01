@@ -19,6 +19,8 @@
 		EA6EE6122A24BB2000FCCDBE /* ProductDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6EE6112A24BB2000FCCDBE /* ProductDescriptionViewController.swift */; };
 		EA6EE6142A24D1A600FCCDBE /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6EE6132A24D1A600FCCDBE /* Colors.swift */; };
 		EA6EE6162A25131000FCCDBE /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6EE6152A25131000FCCDBE /* RatingView.swift */; };
+		EAC82FD42A28D6C2008223FF /* ProductDescriptionWindowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC82FD32A28D6C2008223FF /* ProductDescriptionWindowModel.swift */; };
+		EAC82FD62A28D85B008223FF /* ProductDescriptionWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAC82FD52A28D85B008223FF /* ProductDescriptionWindow.swift */; };
 		EAD805F92A13845F00510B99 /* WondershopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAD805F82A13845F00510B99 /* WondershopApp.swift */; };
 		EAD805FD2A13846000510B99 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EAD805FC2A13846000510B99 /* Assets.xcassets */; };
 		EAD806002A13846000510B99 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EAD805FF2A13846000510B99 /* Preview Assets.xcassets */; };
@@ -82,6 +84,8 @@
 		EA6EE6112A24BB2000FCCDBE /* ProductDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDescriptionViewController.swift; sourceTree = "<group>"; };
 		EA6EE6132A24D1A600FCCDBE /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		EA6EE6152A25131000FCCDBE /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
+		EAC82FD32A28D6C2008223FF /* ProductDescriptionWindowModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDescriptionWindowModel.swift; sourceTree = "<group>"; };
+		EAC82FD52A28D85B008223FF /* ProductDescriptionWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDescriptionWindow.swift; sourceTree = "<group>"; };
 		EAD805F52A13845F00510B99 /* Wondershop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wondershop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAD805F82A13845F00510B99 /* WondershopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WondershopApp.swift; sourceTree = "<group>"; };
 		EAD805FC2A13846000510B99 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -183,6 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				EAD806372A138A6A00510B99 /* ProductDescriptionView.swift */,
+				EAC82FD52A28D85B008223FF /* ProductDescriptionWindow.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -378,6 +383,7 @@
 			isa = PBXGroup;
 			children = (
 				EAD8064C2A13AB0500510B99 /* ProductDescriptionViewModel.swift */,
+				EAC82FD32A28D6C2008223FF /* ProductDescriptionWindowModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -568,6 +574,7 @@
 				EAD8065C2A13D8E000510B99 /* CartManagerImpl.swift in Sources */,
 				EA6EE6062A22601300FCCDBE /* Coordinator.swift in Sources */,
 				EAD806612A13E0D000510B99 /* CartStoreImpl.swift in Sources */,
+				EAC82FD62A28D85B008223FF /* ProductDescriptionWindow.swift in Sources */,
 				EAD8063A2A138A7700510B99 /* CartView.swift in Sources */,
 				EA6EE60E2A2287F700FCCDBE /* ProductListCollectionViewCell.swift in Sources */,
 				EAD8064D2A13AB0500510B99 /* ProductDescriptionViewModel.swift in Sources */,
@@ -577,6 +584,7 @@
 				EAD806712A14131000510B99 /* CartCell.swift in Sources */,
 				EAD806512A13AB6F00510B99 /* Cart.swift in Sources */,
 				EAD806472A138CF600510B99 /* Product.swift in Sources */,
+				EAC82FD42A28D6C2008223FF /* ProductDescriptionWindowModel.swift in Sources */,
 				EAD806562A13D26800510B99 /* Configuration.swift in Sources */,
 				EA6EE6162A25131000FCCDBE /* RatingView.swift in Sources */,
 				EAD8065F2A13E02900510B99 /* CartStore.swift in Sources */,
@@ -760,7 +768,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -795,7 +803,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

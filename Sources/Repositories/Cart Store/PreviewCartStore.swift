@@ -15,4 +15,10 @@ final class PreviewCartStore: CartStore {
     func updateCurrentCart(_: Cart) async {}
 }
 
+extension CartStore where Self == PreviewCartStore {
+    static var preview: Self {
+        PreviewCartStore()
+    }
+}
+
 #endif

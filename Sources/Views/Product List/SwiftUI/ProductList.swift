@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ProductList: View {
     @ObservedObject private(set) var viewModel: ProductListViewModel
+    @Environment(\.openWindow) var openWindow
+    @Environment(\.supportsMultipleWindows) var supportsMultipleWindows
 
     var body: some View {
         NavigationStack {
@@ -23,6 +25,17 @@ struct ProductList: View {
                             ForEach(itemViewModels) { itemViewModel in
                                 NavigationLink(value: itemViewModel.descriptionViewModel) {
                                     ProductListCell(viewModel: itemViewModel.cellViewModel)
+                                }
+                                .contextMenu {
+                                    if supportsMultipleWindows {
+                                        Button {
+                                            openWindow(value: itemViewModel.id)
+                                        } label: {
+                                            Label("Open in a New Window", systemImage: "plus.rectangle")
+                                        }
+                                    } else {
+                                        EmptyView()
+                                    }
                                 }
                             }
                             .navigationDestination(for: ProductDescriptionViewModel.self, destination: { viewModel in

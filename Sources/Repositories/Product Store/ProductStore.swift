@@ -20,4 +20,9 @@ protocol ProductStore {
     ///
     /// - Returns: An array of `Product` instances representing the subsequent page of data
     func fetch(after product: Product) async throws -> [Product]
+
+    /// Fetches a single product information.
+    ///
+    /// - Returns: A `Product` instance for a given `id`.
+    func fetch(id: Product.ID) async throws -> Product
 }

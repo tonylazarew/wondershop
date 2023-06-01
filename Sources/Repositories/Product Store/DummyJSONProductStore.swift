@@ -58,4 +58,15 @@ final class DummyJSONProductStore: ProductStore {
     func fetch(after product: Product) async throws -> [Product] {
         try await fetch(afterId: product.id)
     }
+
+    func fetch(id: Product.ID) async throws -> Product {
+        let url = baseURL
+            .appending(path: "products")
+            .appending(path: "\(id)")
+
+        let request = URLRequest(url: url)
+        let (data, _) = try await URLSession.shared.data(for: request)
+
+        return try JSONDecoder().decode(Product.self, from: data)
+    }
 }

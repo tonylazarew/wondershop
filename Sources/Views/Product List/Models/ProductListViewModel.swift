@@ -87,7 +87,6 @@ final class ProductListViewModel: ObservableObject {
             state = .cellsAvailable(viewModels)
         } catch {
             state = .failure(message: "Could not fetch products, try again later")
-            print("ProductListViewModel error: \(error)")
         }
     }
 
