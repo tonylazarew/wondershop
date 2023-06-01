@@ -5,6 +5,8 @@
 //  Created by Anton Lazarev on 27/05/2023.
 //
 
+#if canImport(UIKit)
+
 import UIKit
 
 protocol Coordinator {
@@ -12,3 +14,5 @@ protocol Coordinator {
 
     func start()
 }
+
+#endif

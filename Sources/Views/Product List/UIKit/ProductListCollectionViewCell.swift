@@ -5,6 +5,8 @@
 //  Created by Anton Lazarev on 27/05/2023.
 //
 
+#if canImport(UIKit)
+
 import SDWebImage
 import UIKit
 
@@ -151,3 +153,5 @@ private extension ProductListCellContentView {
         ])
     }
 }
+
+#endif

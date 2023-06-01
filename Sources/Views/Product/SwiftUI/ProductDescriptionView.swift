@@ -13,6 +13,7 @@ struct ProductDescriptionView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
+#if os(iOS)
                 GeometryReader { geometry in
                     TabView {
                         ForEach(viewModel.imageURLs) { imageURL in
@@ -29,7 +30,24 @@ struct ProductDescriptionView: View {
                     }
                 }
                 .frame(height: 300)
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                .tabViewStyle(.page(indexDisplayMode: .always))
+#elseif os(macOS)
+                ScrollView(.horizontal) {
+                    LazyHStack {
+                        ForEach(viewModel.imageURLs) { imageURL in
+                            AsyncImage(url: imageURL) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFit()
+                            } placeholder: {
+                                Image(systemName: "photo.fill")
+                            }
+                            .frame(height: 300)
+                            .clipped()
+                        }
+                    }
+                }
+#endif
 
                 HStack(alignment: .top) {
                     VStack(alignment: .leading) {
@@ -69,6 +87,7 @@ struct ProductDescriptionView: View {
                                 .background(viewModel.isInCart ? Color.black : Color.white)
                                 .clipShape(RoundedRectangle(cornerRadius: 5))
                         }
+                        .buttonStyle(.borderless)
                     }
                 }
                 .padding()

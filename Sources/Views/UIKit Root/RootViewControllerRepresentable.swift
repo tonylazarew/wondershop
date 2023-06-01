@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+#if canImport(UIKit)
+
 struct RootViewControllerRepresentable: UIViewControllerRepresentable {
     private let rootViewModel: ProductListViewModel
 
@@ -28,3 +30,5 @@ extension RootViewControllerRepresentable {
         rootViewController.dismantle()
     }
 }
+
+#endif

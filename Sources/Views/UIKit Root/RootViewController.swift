@@ -5,6 +5,8 @@
 //  Created by Anton Lazarev on 27/05/2023.
 //
 
+#if canImport(UIKit)
+
 import Combine
 import UIKit
 
@@ -51,3 +53,5 @@ extension RootViewController {
         shopFlowCoordinator.start()
     }
 }
+
+#endif

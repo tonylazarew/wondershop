@@ -5,6 +5,8 @@
 //  Created by Anton Lazarev on 29/05/2023.
 //
 
+#if canImport(UIKit)
+
 import UIKit
 
 class ProductDescriptionViewController: UIViewController {
@@ -420,3 +422,5 @@ extension ProductDescriptionViewController: UIScrollViewDelegate {
         hidePhotoPageControl()
     }
 }
+
+#endif

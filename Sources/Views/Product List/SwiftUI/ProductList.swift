@@ -12,8 +12,10 @@ struct ProductList: View {
     @Environment(\.openWindow) var openWindow
     @Environment(\.supportsMultipleWindows) var supportsMultipleWindows
 
+    @State var navPath: [ProductDescriptionViewModel] = []
+
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navPath) {
             Group {
                 switch viewModel.state {
                 case .fetching:
@@ -23,20 +25,32 @@ struct ProductList: View {
                     ScrollView {
                         LazyVStack(spacing: 4) {
                             ForEach(itemViewModels) { itemViewModel in
-                                NavigationLink(value: itemViewModel.descriptionViewModel) {
+#if os(macOS)
+                                let cell = ZStack(alignment: .topTrailing) {
+                                    ProductListCell(viewModel: itemViewModel.cellViewModel)
+                                    NavigationLink(value: itemViewModel.descriptionViewModel) {
+                                        Text("Details")
+                                    }
+                                    .padding()
+                                }
+#else
+                                let cell = NavigationLink(value: itemViewModel.descriptionViewModel) {
                                     ProductListCell(viewModel: itemViewModel.cellViewModel)
                                 }
-                                .contextMenu {
-                                    if supportsMultipleWindows {
-                                        Button {
-                                            openWindow(value: itemViewModel.id)
-                                        } label: {
-                                            Label("Open in a New Window", systemImage: "plus.rectangle")
+#endif
+
+                                cell
+                                    .contextMenu {
+                                        if supportsMultipleWindows {
+                                            Button {
+                                                openWindow(value: itemViewModel.id)
+                                            } label: {
+                                                Label("Open in a New Window", systemImage: "plus.rectangle")
+                                            }
+                                        } else {
+                                            EmptyView()
                                         }
-                                    } else {
-                                        EmptyView()
                                     }
-                                }
                             }
                             .navigationDestination(for: ProductDescriptionViewModel.self, destination: { viewModel in
                                 ProductDescriptionView(viewModel: viewModel)

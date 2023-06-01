@@ -5,6 +5,8 @@
 //  Created by Anton Lazarev on 27/05/2023.
 //
 
+#if canImport(UIKit)
+
 import Combine
 import UIKit
 
@@ -265,3 +267,5 @@ private extension UICollectionView.CellRegistration {
         }
     }
 }
+
+#endif

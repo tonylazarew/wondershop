@@ -5,6 +5,8 @@
 //  Created by Anton Lazarev on 28/05/2023.
 //
 
+#if canImport(UIKit)
+
 import UIKit
 
 class CaptionLabel: UIView {
@@ -80,3 +82,5 @@ extension CaptionLabel {
         set { backgroundView.layer.cornerRadius = newValue }
     }
 }
+
+#endif

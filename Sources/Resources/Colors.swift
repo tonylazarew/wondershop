@@ -5,7 +5,13 @@
 //  Created by Anton Lazarev on 29/05/2023.
 //
 
+#if os(iOS)
 import UIKit
+#elseif os(macOS)
+import AppKit
+#endif
+
+#if os(iOS)
 
 extension UIColor {
     static var accentColor: UIColor {
@@ -16,3 +22,17 @@ extension UIColor {
         }
     }
 }
+
+#elseif os(macOS)
+
+extension NSColor {
+    static var accentColor: NSColor {
+        if let color = NSColor(named: "AccentColor") {
+            return color
+        } else {
+            return .systemOrange
+        }
+    }
+}
+
+#endif

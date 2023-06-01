@@ -75,8 +75,9 @@ struct CartView: View {
                     .scaledToFit()
                     .frame(width: 100)
                 Text("Not quite implemented yet...")
-                    .padding()
+                    .padding(.top)
             }
+            .padding()
             .foregroundColor(.accentColor)
             .onTapGesture {
                 showPopup.toggle()

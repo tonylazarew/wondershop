@@ -50,6 +50,7 @@ struct WondershopApp: App {
     var body: some Scene {
         WindowGroup {
             Group {
+#if canImport(UIKit)
                 if useSwiftUI {
                     ProductList(viewModel: productListViewModel)
                 } else {
@@ -57,18 +58,29 @@ struct WondershopApp: App {
                         rootViewModel: productListViewModel
                     )
                 }
+#else
+                ProductList(viewModel: productListViewModel)
+#endif
             }
             .animation(.linear(duration: 0.1), value: useSwiftUI)
             .onShake(togglePresentation)
             .onAppear { useSwiftUI = cachedUseSwiftUI }
         }
+#if os(macOS)
+        .defaultSize(width: 600, height: 600)
+#endif
 
         WindowGroup("Product Details", for: Product.ID.self) { $productId in
             ProductDescriptionWindow(viewModel: .init(
                 productStore: productStore,
                 cartManager: cartManager,
-                id: productId!
+                // TODO: This is a sneaky coalescing placeholder for a lack of better wiring
+                id: productId ?? 0
             ))
         }
+        .commandsRemoved()
+#if os(macOS)
+        .defaultSize(width: 400, height: 600)
+#endif
     }
 }

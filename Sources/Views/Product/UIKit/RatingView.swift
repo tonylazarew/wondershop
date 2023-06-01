@@ -5,6 +5,8 @@
 //  Created by Anton Lazarev on 29/05/2023.
 //
 
+#if canImport(UIKit)
+
 import UIKit
 
 class RatingView: UIView {
@@ -86,3 +88,5 @@ extension RatingView {
         ratingLabel.text = text
     }
 }
+
+#endif

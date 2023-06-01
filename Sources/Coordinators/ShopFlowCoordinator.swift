@@ -5,6 +5,8 @@
 //  Created by Anton Lazarev on 27/05/2023.
 //
 
+#if canImport(UIKit)
+
 import UIKit
 
 final class ShopFlowCoordinator: Coordinator {
@@ -57,3 +59,5 @@ extension ShopFlowCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
 }
+
+#endif

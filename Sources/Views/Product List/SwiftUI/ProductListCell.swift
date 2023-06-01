@@ -11,7 +11,11 @@ struct ProductListCell: View {
     @ObservedObject var viewModel: ProductListCellViewModel
 
     @State var isInCart = false
+#if os(iOS)
     @ScaledMetric(relativeTo: .body) private var thumbnailHeight = 200
+#else
+    var thumbnailHeight: CGFloat = 200
+#endif
 
     @MainActor
     var thumbnailImage: some View {
@@ -113,6 +117,7 @@ struct ProductListCell: View {
                                 .background(viewModel.isInCart ? Color.black : Color.white)
                                 .clipShape(RoundedRectangle(cornerRadius: 5))
                         }
+                        .buttonStyle(.borderless)
                     }
                 }
             }
