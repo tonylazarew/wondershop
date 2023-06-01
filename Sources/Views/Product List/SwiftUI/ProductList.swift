@@ -19,14 +19,15 @@ struct ProductList: View {
 
                 case let .cellsAvailable(itemViewModels):
                     ScrollView {
-                        LazyVStack(spacing: 5) {
+                        LazyVStack(spacing: 4) {
                             ForEach(itemViewModels) { itemViewModel in
-                                NavigationLink {
-                                    ProductDescriptionView(viewModel: itemViewModel.descriptionViewModel)
-                                } label: {
+                                NavigationLink(value: itemViewModel.descriptionViewModel) {
                                     ProductListCell(viewModel: itemViewModel.cellViewModel)
                                 }
                             }
+                            .navigationDestination(for: ProductDescriptionViewModel.self, destination: { viewModel in
+                                ProductDescriptionView(viewModel: viewModel)
+                            })
                         }
                     }
                     .refreshable {

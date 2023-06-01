@@ -5,7 +5,6 @@
 //  Created by Anton Lazarev on 16/05/2023.
 //
 
-import SDWebImageSwiftUI
 import SwiftUI
 
 struct ProductListCell: View {
@@ -16,12 +15,13 @@ struct ProductListCell: View {
 
     @MainActor
     var thumbnailImage: some View {
-        WebImage(url: viewModel.thumbnailURL)
-            .placeholder(
-                Image(systemName: "photo.fill")
-            )
-            .resizable()
-            .scaledToFill()
+        AsyncImage(url: viewModel.thumbnailURL) { image in
+            image
+                .resizable()
+                .scaledToFill()
+        } placeholder: {
+            ProgressView()
+        }
     }
 
     @MainActor
@@ -55,9 +55,20 @@ struct ProductListCell: View {
             // Thumbnail behind the description
 
             thumbnailImage
+                .mask {
+                    LinearGradient(
+                        stops: [
+                            .init(color: .black.opacity(0.5), location: 0),
+                            .init(color: .black.opacity(1), location: 0.3),
+                            .init(color: .black.opacity(1), location: 0.8),
+                            .init(color: .black.opacity(0.7), location: 1),
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                }
                 .frame(minWidth: 0, maxWidth: .infinity)
                 .frame(height: thumbnailHeight)
-                .opacity(0.8)
 
             Group {
                 VStack(alignment: .leading, spacing: 0) {

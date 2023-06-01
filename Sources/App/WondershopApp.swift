@@ -30,6 +30,10 @@ struct WondershopApp: App {
             productStore: DummyJSONProductStore(),
             cartManager: cartManager
         )
+
+        // Set up URLCache
+        URLCache.shared.memoryCapacity = 50_000_000
+        URLCache.shared.diskCapacity = 50_000_000
     }
 
     // MARK: - Private

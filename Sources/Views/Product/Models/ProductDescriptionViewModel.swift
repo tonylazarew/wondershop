@@ -100,3 +100,13 @@ final class ProductDescriptionViewModel: ObservableObject {
         await cartManager.toggle(product)
     }
 }
+
+extension ProductDescriptionViewModel: Hashable, Equatable {
+    static func == (lhs: ProductDescriptionViewModel, rhs: ProductDescriptionViewModel) -> Bool {
+        lhs.product.id == rhs.product.id
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(product.id)
+    }
+}

@@ -5,7 +5,6 @@
 //  Created by Anton Lazarev on 16/05/2023.
 //
 
-import SDWebImageSwiftUI
 import SwiftUI
 
 struct ProductDescriptionView: View {
@@ -17,14 +16,15 @@ struct ProductDescriptionView: View {
                 GeometryReader { geometry in
                     TabView {
                         ForEach(viewModel.imageURLs) { imageURL in
-                            WebImage(url: imageURL)
-                                .placeholder(
-                                    Image(systemName: "photo.fill")
-                                )
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: geometry.size.height)
-                                .clipped()
+                            AsyncImage(url: imageURL) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFit()
+                            } placeholder: {
+                                Image(systemName: "photo.fill")
+                            }
+                            .frame(height: geometry.size.height)
+                            .clipped()
                         }
                     }
                 }
